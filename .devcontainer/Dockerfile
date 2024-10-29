@@ -1,4 +1,4 @@
-FROM amazoncorretto:17-alpine-jdk
+FROM amazoncorretto:17-alpine3.19
 
 # Install required packages
 RUN apk add --no-cache bash curl tar gzip tmux git maven gradle eudev-dev
@@ -16,10 +16,6 @@ RUN git clone https://github.com/neovim/neovim /tmp/neovim && \
   make CMAKE_BUILD_TYPE=Release && \
   make install && \
   rm -rf /tmp/neovim
-
-# Set useful environment variables
-ENV JAVA_VERSION=17
-ENV JAVA_VENDOR=corretto
 
 # Set workdir
 WORKDIR /workspace
