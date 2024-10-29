@@ -1,0 +1,15 @@
+{
+  "name": "Java Development",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "mounts": [
+    {
+      "source": "${localEnv:HOME}/.config/nvim",
+      "target": "/root/.config/nvim",
+      "type": "bind"
+    }
+  ],
+  "postCreateCommand": "java -version",
+  "remoteUser": "root"
+}

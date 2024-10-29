@@ -1,0 +1,3 @@
+[submodule "resilience4j"]
+	path = resilience4j
+	url = git@github.com:resilience4j/resilience4j.git
