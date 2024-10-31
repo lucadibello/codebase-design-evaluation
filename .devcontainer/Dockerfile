@@ -26,7 +26,7 @@ RUN git clone https://github.com/neovim/neovim /tmp/neovim && \
 
 # Install tmux plugin manager
 RUN git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-RUN TMUX_PLUGIN_MANAGER_PATH=/root/.tmux/plugins/tpm ~/.tmux/plugins/tpm/bin/install_plugins
+RUN TMUX_PLUGIN_MANAGER_PATH=~/.tmux/plugins/tpm ~/.tmux/plugins/tpm/bin/install_plugins
 
 # Generate new SSH key for the container (will be the repo deploy key)
 RUN ssh-keygen -t ed25519 -f /root/.ssh/id_ed25519 -N ""
