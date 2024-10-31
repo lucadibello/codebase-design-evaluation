@@ -2,17 +2,24 @@
 
 In this assignment we are asked to leverage multiple specialized tools to scan a chosen open-source project in order to automatically detect design flaws such as code smells and anti-patterns. The results will be condensed inside a single report in order to provide a detailed analysis of the project's codebase, and to identify potential areas for improvement in terms of code quality and maintainability.
 
-To address this task, we are going to use \href{SonarQube}{https://www.sonarqube.org} and \href{PMD}{https://pmd.github.io/} static code analysis tools, which are widely used in the industry to detect a wide range of coding flaws and bad practices: 
+To address this task, we are going to use \href{SonarQube}{https://www.sonarqube.org} and \href{PMD}{https://pmd.github.io/} static code analysis tools, which are widely used in the industry to detect a wide range of coding flaws and bad practices:
 
 Similarly to the previous assignment, the chosen open-source project must satisfy the following requirements: at least 100 stars, 100 forks, 10 open issue, and at least 50'000 lines of Java code (comments included). In order to find a valid project, the GitHub search feature was used, filtering the results based on the cited requirements. To do so, the following search query was used:
 
 \begin{lstlisting}[caption=GitHub search query]
-  stars:>100 forks:>100 language:java
+                    stars:>100 forks:>100 language:java
 \end{lstlisting}
 
-However, as the Github search feature does not provide any filtering options for the number of open issues or the total number of lines of code, each result was manually inspected to ensure its requirements were satisfied. To count the total lines of code (later referred as \emph{LOC}) of a project, the web application \href{https://codetabs.com/count-loc/count-loc-online.html}{Count LOC} was used. Using this tool, we are able to easily determine the LOC count of a project by providing the URL of the GitHub repository, without the need to clone the repository locally. 
+\noindent However, as the Github search feature does not provide any filtering options for the number of open issues or the total number of lines of code, each result was manually inspected to ensure its requirements were satisfied. To count the total lines of code (later referred as \emph{LOC}) of a project, the web application \href{https://codetabs.com/count-loc/count-loc-online.html}{Count LOC} was used. Using this tool, we are able to easily determine the LOC count of a project by providing the URL of the GitHub repository, without the need to clone the repository locally.
 
 \subsection{Project selection}
+
+In order to provide a interesting analysis of a project, and also to learn more about code quality in large open-source projects, the search was focused on active projects with a large community and a good number of stars and forks. After a first selection of projects, the following three projects were chosen:
+
+\begin{itemize}
+	\item
+	\item
+\end{itemize}
 
 \subsection{High-level overview of the project structure}
 
