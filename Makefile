@@ -6,7 +6,7 @@ devcontainer:
 	@devcontainer up --workspace-folder .
 	@devcontainer exec --workspace-folder . tmux new-session -s devcontainer -d
 
-attach:
+attach: devcontainer
 	@devcontainer exec --workspace-folder . tmux attach-session -t devcontainer
 
 build:
