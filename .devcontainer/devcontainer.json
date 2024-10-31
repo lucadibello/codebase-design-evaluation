@@ -8,6 +8,11 @@
       "source": "${localEnv:HOME}/.config/nvim",
       "target": "/root/.config/nvim",
       "type": "bind"
+    },
+    {
+      "source": "/Users/lucadibello/Developer/dotfiles/.tmux.conf",
+      "target": "/root/.tmux.conf",
+      "type": "bind"
     }
   ],
   "postCreateCommand": "java -version",
