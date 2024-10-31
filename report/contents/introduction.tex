@@ -14,16 +14,45 @@ Similarly to the previous assignment, the chosen open-source project must satisf
 
 \subsection{Project selection}
 
-In order to provide a interesting analysis of a project, and also to learn more about code quality in large open-source projects, the search was focused on active projects with a large community and a good number of stars and forks. After a first selection of projects, the following three projects were chosen:
+In order to provide a interesting analysis of a project, and also to learn more about code quality in large open-source projects, the search was focused on active projects with a large community and a good number of stars and forks. After selecting a few projects that satisfied the requirements, three were chosen for further inspection:
 
 \begin{itemize}
-	\item
-	\item
+	\item \href{https://github.com/apache/camel}{apache/camel}: An open-source integration framework based on known Enterprise Integration Patterns (EIPs). \cite{camel:description} \textit{Apache Camel} provides the tools to connect different messaging systems and protocols, providing easy integration and routing of messages across different systems. The project has 5.5k stars, 4.5k forks, 455 open issues (refer to Jira dashboard \href{https://issues.apache.org/jira/projects/CAMEL/issues/CAMEL-21410?filter=allopenissues}{here}) and around 1.5M LOC. This project was selected as it represents a large and complex project, used in many production environments.
+	      Unfortunately, the project was later discarded due to its extreme size, which could make the analysis too complex and time-consuming.
+
+	\item \href{https://github.com/hibernate/hibernate-orm}{hibernate/hibernate-orm}: The \textit{Hibernate ORM} is one of the most popular Java Object-Relational Mapping (ORM) frameworks, allowing developers to map Java objects to database tables and vice versa, facilitating the development of database-driven applications. The project has 6k stars, 3.5k forks, 232 open issues and over 1.3M LOC (comments excluded). \textit{Hibernate} is widely used in the industry and has a large community of developers, making it a perfect candidate for the analysis.
+	      Similar to the previous project, the size of the codebase was considered too large for the scope of the assignment, and was therefore discarded.
+
+	\item \href{https://github.com/resilience4j/resilience4j}{resilience4j/resilience4j}: Library to improve resiliency and fault tolerance in Java projects, providing a set of modules to face common issues such as rate limiting, circuit breaking, automatic retrying and more. The project has 9.8k stars, 1.3k forks, 219 open issues and around 80k LOC (comments excluded). This project was inspired by the Netflix \href{https://github.com/Netflix/Hystrix}{Hystrix} fault-tolerance library. Since \textit{Hystrix} is no longer in active development, the Netflix team advised users to migrate to \textit{resilience4j} (refer to library readme \href{https://github.com/Netflix/Hystrix?tab=readme-ov-file#hystrix-status}{here}).
+
+	      The \textit{resilience4j} library is actively maintained and employed by many companies in their production systems. Due to its smaller size and its utility in real-world applications, this project was chosen for the analysis.
+
 \end{itemize}
 
 \subsection{High-level overview of the project structure}
 
+The \textit{resilience4j} library is composed of six main modules, each providing a different set of features to improve resiliency in Java applications:
+
+\begin{enumerate}
+	\item \textbf{resilience4j-circuitbreaker}: Implements the Circuit Breaker pattern to prevent cascading failures in distributed systems.
+	\item \textbf{resilience4j-ratelimiter}: Provides rate limiting to control the rate of requests and prevent system overloads.
+	\item \textbf{resilience4j-bulkhead}: Implements bulkheading to limit the number of concurrent calls to a component, thereby isolating failures.
+	\item \textbf{resilience4j-retry}: Offers automatic retry mechanisms for failed operations, with customizable retry strategies.
+	\item \textbf{resilience4j-timelimiter}: Allows setting time limits for operations, enabling timeout handling for long-running tasks.
+	\item \textbf{resilience4j-cache}: Provides result caching to store and reuse the outcomes of expensive operations, reducing latency and improving performance.
+\end{enumerate}
+
+Each of these modules is defined in a separate package inside the \textit{resilience4j} project, making it easier to navigate and understand the codebase. Each module is self-contained, allowing developers to use only the modules they need in their projects, without the need to include the entire library.
+
 \subsection{Building the project}
+
+The project utilizes the \href{}{Gradle} build system to manage dependencies and build the project. Thanks to the \href{}{Gradle Wrapper} script, it is possible to automatically configure the project and download the necessary dependencies without the need to install Gradle on the local machine. The following command can be used to build the project:
+
+\begin{lstlisting}[language=C++, caption=Building the project]
+                    ./gradlew build -x test
+\end{lstlisting}
+
+The additional flag \texttt{-x test} is used to skip the execution of the several test suites included in the project. Since the focus of this assignment is on the analysis of the codebase and not on the testing process, the tests were excluded as their execution could take a considerable amount of time and would not add any value to the analysis.
 
 \subsection{Usage of scanning tools}
 
