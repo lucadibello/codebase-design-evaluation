@@ -4,10 +4,9 @@ DIR = ./resilience4j
 devcontainer:
 	@devcontainer build --workspace-folder .
 	@devcontainer up --workspace-folder .
-	@devcontainer exec --workspace-folder . tmux new-session -s devcontainer -d
 
 attach: devcontainer
-	@devcontainer exec --workspace-folder . tmux attach-session -t devcontainer
+	@devcontainer exec --workspace-folder . tmux new-session -A -s dev
 
 build:
 	cd $(DIR) && $(GRADLE) build -x test
