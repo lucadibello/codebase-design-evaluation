@@ -5,7 +5,10 @@ devcontainer:
 	@devcontainer build --workspace-folder .
 	@devcontainer up --workspace-folder .
 
-attach: devcontainer
+sonarqube:
+	@docker-compose up -d
+
+attach: devcontainer sonarqube
 	@devcontainer exec --workspace-folder . tmux new-session -A -s dev
 
 build:
@@ -13,4 +16,4 @@ build:
 
 
 # Phony targets
-.PHONY: devcontainer build
+.PHONY: devcontainer build sonarqube attach
