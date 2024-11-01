@@ -51,7 +51,7 @@ RUN wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-s
   rm sonar-scanner-cli-6.2.1.4610-linux-aarch64.zip
 
 # Add binaries to PATH
-RUN echo "export PATH=$PATH:/opt/pmd/bin:/opt/sonar-scanner/bin" >> /root/.bashrc
+RUN echo "export PATH=$PATH:/opt/pmd/bin:/opt/sonar-scanner/bin" >> /root/.ashrc
 
 # Set workdir
 WORKDIR /workspace
