@@ -6,7 +6,7 @@ devcontainer:
 	@devcontainer up --workspace-folder .
 
 sonarqube:
-	@docker-compose up -d
+	@docker run --name sonarqube-server -p 9000:9000 sonarqube:lts-community
 
 attach: devcontainer sonarqube
 	@devcontainer exec --workspace-folder . tmux new-session -A -s dev
