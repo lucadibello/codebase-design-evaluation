@@ -45,13 +45,13 @@ RUN wget https://github.com/pmd/pmd/releases/download/pmd_releases%2F7.7.0/pmd-d
   rm pmd-dist-7.7.0-bin.zip
 
 # 2) Install SonarQube Scanner (static code analysis tool)
-RUN wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-6.2.1.4610-linux-aarch64.zip && \
-  unzip sonar-scanner-cli-6.2.1.4610-linux-aarch64.zip && \
-  mv sonar-scanner-6.2.1.4610-linux-aarch64 /opt/sonar-scanner && \
-  rm sonar-scanner-cli-6.2.1.4610-linux-aarch64.zip
+RUN wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-6.2.1.4610.zip && \
+  unzip sonar-scanner-cli-6.2.1.4610.zip && \
+  mv sonar-scanner-6.2.1.4610 /opt/sonar-scanner && \
+  rm sonar-scanner-cli-6.2.1.4610.zip
 
 # Add binaries to PATH
-RUN echo "export PATH=$PATH:/opt/pmd/bin:/opt/sonar-scanner/bin" >> /root/.ashrc
+ENV PATH=$PATH:/opt/pmd/bin:/opt/sonar-scanner/bin
 
 # Set workdir
 WORKDIR /workspace
