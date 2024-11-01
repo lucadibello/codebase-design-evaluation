@@ -49,14 +49,22 @@ Each of these modules is defined in a separate package inside the \textit{resili
 The project utilizes the \href{}{Gradle} build system to manage dependencies and build the project. Thanks to the \href{}{Gradle Wrapper} script, it is possible to automatically configure the project and download the necessary dependencies without the need to install Gradle on the local machine. The following command can be used to build the project:
 
 \begin{lstlisting}[language=C++, caption=Building the project]
-                    ./gradlew build -x test
+                          ./gradlew build -x test
 \end{lstlisting}
 
 The additional flag \texttt{-x test} is used to skip the execution of the several test suites included in the project. Since the focus of this assignment is on the analysis of the codebase and not on the testing process, the tests were excluded as their execution could take a considerable amount of time and would not add any value to the analysis.
 
+\subsection{Initial expectations and analysis strategy}
+
+Due to its intensive use, and the large community behind the project, we expect to find a well-structured codebase with a good level of maintainability and readability. The project is actively maintained and receives regular updates, which should ensure that the codebase is up-to-date and follows the latest best practices in Java development. 
+
+However, due to the size of the codebase we still expect to find some minor issues, but is still expected to find an high-quality codebase. This theory is supported by the fact that the project has a large number of contributors, and each pull request apart from being reviewed by the maintainers, is also automatically tested using GitHub actions. In fact, by the configured GitHub actions, is possible to see that for some PRs the project employes SonarCloud to automatically check the code quality of the changes. This is a good indicator that the project maintainers care about the code quality and are actively working to improve it. Refer to the GitHub actions configuration file \href{https://github.com/resilience4j/resilience4j/blob/master/.github/workflows/gradle-build.yml#L54}{here}.
+
+Inside this report we will only analyze files related to the core library, leaving behind the test files provided by the project. The test suites are not relevant for the analysis of the code quality, as they do not represent the actual functionality of the library. To do so, we will instruct the scanning tools to ignore the test files and focus only on relevant ones.
+
 \subsection{Usage of scanning tools}
 
-The usage of the scanning tools is straightforward, as both SonarQube and PMD provide a command-line interface to analyze the codebase of a project. In the following paragraphs, we will provide an overview of how to use each tool to analyze the \textit{resilience4j} project. 
+The usage of the scanning tools is straightforward, as both SonarQube and PMD provide a command-line interface to analyze the codebase of a project. In the following paragraphs, we will provide an overview of how to use each tool to analyze the \textit{resilience4j} project.
 
 Since we are going to use two scanning tools and combine their results in a single report, we are going to use simple rulesets for each tool to avoid having too many false positives and to ensure a consistent analysis.
 
@@ -76,9 +84,23 @@ The output format was set to \texttt{html} to generate a human-readable report, 
 
 \paragraph{SonarQube}
 
-On the other hand, the SonarQube static code analysis tool is much simpler as it does not require a ruleset to be defined. The following command can be used to run SonarQube on the \textit{resilience4j} project:
+On the other hand, the SonarQube code analysis tool requires a more complex setup, as we need to install the \textit{SonarQube Scanner CLI} and configure a local \textit{SonarQube Server} instance. The latter is necessary to store the results of the analysis and to provide a web interface to visualize the detected issues.
 
+In order to start the SonarQube server, we can use the pre-built Docker image provided by the SonarQube team. We can start the container using the following command:
 
+\begin{lstlisting}[language=bash, caption={Starting the SonarQube server}]
+docker run --name sonarqube-server -p 9000:9000 sonarqube:lts-community
+\end{lstlisting}
 
+\noindent After ensuring that the server is up and running, we can start the analysis of the \textit{resilience4j} project using the SonarQube Scanner CLI by running the following command:
 
+\begin{lstlisting}[language=bash, caption={Command to run SonarQube analysis}]
+              /path/to/sonar-scanner -Dsonar.projectKey=resilience4j \
+                -Dsonar.sources=/path/to/resilience4j 
+                -Dsonar.host.url=http://localhost:9000 \
+                -Dsonar.login=admin -Dsonar.password=admin \
+                -Dsonar.scanner.skipJreProvisioning=true
+\end{lstlisting}
+
+\noindent \textit{Note:} by default the SonarQube Server credentials are set to \texttt{admin:admin}. After the first login, the password can be changed to a more secure one.
 
