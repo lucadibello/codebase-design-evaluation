@@ -8,5 +8,5 @@ sonar-scanner \
   -Dsonar.host.url=http://localhost:9000 \
   -Dsonar.login=admin \
   -Dsonar.password="Password&1" \
-  -Dsonar.scanner.skipJreProvisioning=true \
-  -Dsonar.exclusions=resilience4j/**/test/**,
+  -Dsonar.scanner.skipJreProvisioning=true
+# -Dsonar.exclusions=resilience4j/**/test/**,
