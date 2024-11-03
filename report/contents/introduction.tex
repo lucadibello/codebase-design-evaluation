@@ -2,7 +2,7 @@
 
 In this assignment we are asked to leverage multiple specialized tools to scan a chosen open-source project in order to automatically detect design flaws such as code smells and anti-patterns. The results will be condensed inside a single report in order to provide a detailed analysis of the project's codebase, and to identify potential areas for improvement in terms of code quality and maintainability.
 
-To address this task, we are going to use \href{SonarQube}{https://www.sonarqube.org} and \href{PMD}{https://pmd.github.io/} static code analysis tools, which are widely used in the industry to detect a wide range of coding flaws and bad practices:
+To address this task, we are going to use \href{https://www.sonarqube.org}{SonarQube} and \href{https://pmd.github.io/}{PMD} static code analysis tools, which are widely used in the industry to detect a wide range of coding flaws and bad practices:
 
 Similarly to the previous assignment, the chosen open-source project must satisfy the following requirements: at least 100 stars, 100 forks, 10 open issue, and at least 50'000 lines of Java code (comments included). In order to find a valid project, the GitHub search feature was used, filtering the results based on the cited requirements. To do so, the following search query was used:
 
@@ -23,7 +23,7 @@ In order to provide a interesting analysis of a project, and also to learn more 
 	\item \href{https://github.com/hibernate/hibernate-orm}{hibernate/hibernate-orm}: The \textit{Hibernate ORM} is one of the most popular Java Object-Relational Mapping (ORM) frameworks, allowing developers to map Java objects to database tables and vice versa, facilitating the development of database-driven applications. The project has 6k stars, 3.5k forks, 232 open issues and over 1.3M LOC (comments excluded). \textit{Hibernate} is widely used in the industry and has a large community of developers, making it a perfect candidate for the analysis.
 	      Similar to the previous project, the size of the codebase was considered too large for the scope of the assignment, and was therefore discarded.
 
-	\item \href{https://github.com/resilience4j/resilience4j}{resilience4j/resilience4j}: Library to improve resiliency and fault tolerance in Java projects, providing a set of modules to face common issues such as rate limiting, circuit breaking, automatic retrying and more. The project has 9.8k stars, 1.3k forks, 219 open issues and around 80k LOC (comments excluded). This project was inspired by the Netflix \href{https://github.com/Netflix/Hystrix}{Hystrix} fault-tolerance library. Since \textit{Hystrix} is no longer in active development, the Netflix team advised users to migrate to \textit{resilience4j} (refer to library readme \href{https://github.com/Netflix/Hystrix?tab=readme-ov-file#hystrix-status}{here}).
+	\item \href{https://github.com/resilience4j/resilience4j}{resilience4j/resilience4j}: Library to improve resiliency and fault tolerance in Java projects, providing a set of modules to face common issues such as rate limiting, circuit breaking, automatic retrying and more. The project has 9.8k stars, 1.3k forks, 219 open issues and around 80k LOC (comments excluded). This project was inspired by the Netflix \href{https://github.com/Netflix/Hystrix}{Hystrix} fault-tolerance library. Since \textit{Hystrix} is no longer in active development, the Netflix team advised users to migrate to \textit{resilience4j}. \cite{hystrix:readme}
 
 	      The \textit{resilience4j} library is actively maintained and employed by many companies in their production systems. Due to its smaller size and its utility in real-world applications, this project was chosen for the analysis.
 
@@ -31,22 +31,13 @@ In order to provide a interesting analysis of a project, and also to learn more 
 
 \subsection{High-level overview of the project structure}
 
-The \textit{resilience4j} library is composed of six main modules, each providing a different set of features to improve resiliency in Java applications:
+The \textit{resilience4j} library includes six main modules designed to improve application resiliency: \textit{CircuitBreaker} to prevent cascading failures, \textit{RateLimiter} to control request rates, \textit{Bulkhead} to limit concurrent calls, \textit{Retry} for automatic retries, \textit{TimeLimiter} for operation timeouts, and \textit{Cache} for storing results to enhance efficiency. Each module is self-contained, allowing developers to use only the necessary features without including the entire library. Each module defines its own testing suite to ensure the correctness of the implementation.
 
-\begin{enumerate}
-	\item \textbf{resilience4j-circuitbreaker}: Implements the Circuit Breaker pattern to prevent cascading failures in distributed systems.
-	\item \textbf{resilience4j-ratelimiter}: Provides rate limiting to control the rate of requests and prevent system overloads.
-	\item \textbf{resilience4j-bulkhead}: Implements bulkheading to limit the number of concurrent calls to a component, thereby isolating failures.
-	\item \textbf{resilience4j-retry}: Offers automatic retry mechanisms for failed operations, with customizable retry strategies.
-	\item \textbf{resilience4j-timelimiter}: Allows setting time limits for operations, enabling timeout handling for long-running tasks.
-	\item \textbf{resilience4j-cache}: Provides result caching to store and reuse the outcomes of expensive operations, reducing latency and improving performance.
-\end{enumerate}
-
-Each of these modules is defined in a separate package inside the \textit{resilience4j} project, making it easier to navigate and understand the codebase. Each module is self-contained, allowing developers to use only the modules they need in their projects, without the need to include the entire library.
+The library also offers adapters for popular frameworks (such as \textit{Spring Boot}, \textit{Micronaut}, \textit{Reactor}) and libraries (like \textit{RxJava} and \textit{CompletableFuture}).
 
 \subsection{Building the project}
 
-The project utilizes the \href{}{Gradle} build system to manage dependencies and build the project. Thanks to the \href{}{Gradle Wrapper} script, it is possible to automatically configure the project and download the necessary dependencies without the need to install Gradle on the local machine. The following command can be used to build the project:
+The project utilizes the \href{https://gradle.org/}{Gradle} build system to manage dependencies and build the project. Thanks to the \href{https://docs.gradle.org/current/userguide/gradle_wrapper.html}{Gradle Wrapper} script, it is possible to automatically configure the project and download the necessary dependencies without the need to install Gradle on the local machine. The following command can be used to build the project:
 
 \begin{lstlisting}[language=C++, caption=Building the project]
                           ./gradlew build -x test
@@ -56,7 +47,7 @@ The additional flag \texttt{-x test} is used to skip the execution of the severa
 
 \subsection{Initial expectations and analysis strategy}
 
-Due to its intensive use, and the large community behind the project, we expect to find a well-structured codebase with a good level of maintainability and readability. The project is actively maintained and receives regular updates, which should ensure that the codebase is up-to-date and follows the latest best practices in Java development. 
+Due to its intensive use, and the large community behind the project, we expect to find a well-structured codebase with a good level of maintainability and readability. The project is actively maintained and receives regular updates, which should ensure that the codebase is up-to-date and follows the latest best practices in Java development.
 
 However, due to the size of the codebase we still expect to find some minor issues, but is still expected to find an high-quality codebase. This theory is supported by the fact that the project has a large number of contributors, and each pull request apart from being reviewed by the maintainers, is also automatically tested using GitHub actions. In fact, by the configured GitHub actions, is possible to see that for some PRs the project employes SonarCloud to automatically check the code quality of the changes. This is a good indicator that the project maintainers care about the code quality and are actively working to improve it. Refer to the GitHub actions configuration file \href{https://github.com/resilience4j/resilience4j/blob/master/.github/workflows/gradle-build.yml#L54}{here}.
 
@@ -69,18 +60,19 @@ The usage of the scanning tools is straightforward, as both SonarQube and PMD pr
 Since we are going to use two scanning tools and combine their results in a single report, we are going to use simple rulesets for each tool to avoid having too many false positives and to ensure a consistent analysis.
 
 \paragraph{PMD}
+\label{sec:pmd_usage}
 
 In order to run the PMD static code analysis tool, we need to define some important parameters, such as the ruleset to be used, the version of Java to analyze, the output format, and the output file. The following command can be used to run PMD on the \textit{resilience4j} project:
 
 \begin{lstlisting}[language=bash, caption={Command to run PDM static code analysis}]
 /path/to/pmd check -d /workspaces/design-evaluation/resilience4j \
-  -R rulesets/java/quickstart.xml -f html \
-  --use-version java-17 --report-file /path/to/report.html
+  -R rulesets/java/quickstart.xml -f csv \
+  --use-version java-17 --report-file /path/to/report.csv
 \end{lstlisting}
 
 \noindent To perform a comprehensive scan of the whole codebase, was decided to use the \texttt{quickstart} ruleset, as it include a set of rules that are considered to be the most important and useful for a general-purpose analysis. This ruleset represents a good starting point to detect common coding flaws and anti-patterns, allowing to have a general overview of the project's code quality. Refer to the \href{https://pmd.github.io/pmd/pmd_rules_java.html#additional-rulesets}{PMD documentation} for a complete list of rules included in the \texttt{quickstart} ruleset.
 
-The output format was set to \texttt{html} to generate a human-readable report, and the version of Java to analyze was set to \texttt{java-17} to ensure compatibility with the project's codebase. The resulting report will be saved in the \texttt{report.html} file.
+The output format was set to \texttt{csv} in order to easily preprocess the results. Refer to \autoref{sec:data_preprocessing} for more details.
 
 \paragraph{SonarQube}
 
@@ -94,7 +86,7 @@ docker run --name sonarqube-server -p 9000:9000 sonarqube:lts-community
 
 \noindent After ensuring that the server is up and running, we can start the analysis of the \textit{resilience4j} project using the SonarQube Scanner CLI by running the following command:
 
-\begin{lstlisting}[language=bash, caption={Command to run SonarQube analysis}]
+\begin{lstlisting}[language=bash, caption={Command to run SonarQube analysis on \textit{resilience4j} project codebase}]
               /path/to/sonar-scanner -Dsonar.projectKey=resilience4j \
                 -Dsonar.sources=/path/to/resilience4j 
                 -Dsonar.host.url=http://localhost:9000 \
@@ -104,3 +96,4 @@ docker run --name sonarqube-server -p 9000:9000 sonarqube:lts-community
 
 \noindent \textit{Note:} by default the SonarQube Server credentials are set to \texttt{admin:admin}. After the first login, the password can be changed to a more secure one.
 
+As the tool does does not provide any way to export the results in a CSV format, offering only a web interface to visualize the detected issues, the different categories of issues found by SonarQube and the relative counts were manually and stored in a CSV file to allow a comparison with the PMD results in a programmatic way. Refer to \autoref{sec:data_preprocessing} for more details.

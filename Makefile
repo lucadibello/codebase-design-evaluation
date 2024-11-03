@@ -1,14 +1,14 @@
 GRADLE = ./gradlew
 DIR = ./resilience4j
 
-devcontainer:
+devcontainer: sonarqube
 	@devcontainer build --workspace-folder .
 	@devcontainer up --workspace-folder .
 
 sonarqube:
-	@docker run --name sonarqube-server -p 9000:9000 sonarqube:lts-community
+	@docker start sonarqube-server || docker run --name sonarqube-server -p 9000:9000 sonarqube:lts-community &
 
-attach: devcontainer sonarqube
+attach: devcontainer
 	@devcontainer exec --workspace-folder . tmux new-session -A -s dev
 
 build:

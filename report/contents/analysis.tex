@@ -1,2 +1,67 @@
 \section{Analysis of results}
 
+By running the two tools on the codebase, we were able to find a large number of issues: \textit{PMD} found 1074 issues, while \textit{SonarQube} found over 1300 issues. Both tools already divide the issues into categories, allowing an easier analysis of the results.
+
+\subsection{Data preprocessing and mapping}
+\label{sec:data_preprocessing}
+
+The two tools recognize different kinds of issues, and the way they categorize them. As the two sets of issues are not directly comparable, was developed a Python script that reads the output of both tools and extracts the categories of issues detected, counting the number of issues in each category.
+
+SonarQube found 21 different categories, providing a more detailed analysis of the issues. PMD, on the other hand, provides a more general categorization of the issues, with only 7 categories. As such, we decided to map the SonarQube categories to the PMD categories, in order to provide a more general overview of the issues found by both tools. The mapping is as follows:
+
+\begin{itemize}
+    \item \textbf{Code Style:} Included SonarQube's \textit{convention}, \textit{unused}, \textit{confusing}, \textit{clumsy}, \textit{obsolete}, \textit{duplicate}, and \textit{redundant}, \textit{brain-overload} categories. Issues in this category are related to the code's readability and maintainability, and the misuse of Java features.
+
+    \item \textbf{Best Practices:} Mapped from SonarQube's \textit{java8}, \textit{bad-practice}, and \textit{serialization} categories. These issues are related to the code's quality, and the misuse of Java features.
+
+    \item \textbf{Design:} Included SonarQube's \textit{design} and \textit{brain-overload} categories, focused on architectural and design quality. The \textit{brain-overload} category was included in this category as it relates to the complexity of the code, alerting when a class or method is considered too complex (cyclomatic complexity, nesting, etc.).
+
+     Furthermore, was later decided to add map \textit{brain-overload} category also to the \textit{Code Style} category, as it strictly relates to the readability and maintainability of the code.
+
+    \item \textbf{Error Prone:} Mapped from SonarQube's \textit{cert}, \textit{pitfall}, \textit{suspicious}, \textit{cwe}, \textit{error-handling}, \textit{owasp-a3}, and \textit{leak} categories, each addressing issues that could lead to potential bugs or security vulnerabilities.
+
+    \item \textbf{Multithreading:} Directly matched with SonarQube's \textit{multi-threading} category, dealing with concurrency-related issues.
+
+    \item \textbf{Performance:} Mapped from SonarQube's \textit{performance} category, highlighting areas where code efficiency could be improved.
+
+    \item \textbf{Documentation:} No matching categories in SonarQube; this category remains with issues only detected by PMD.
+\end{itemize}
+
+\subsection{Comparison of results}
+
+After preprocessing the data, we were able to compare the results of the two tools. Table \ref{tab:sonarqube_pmd_comparison} shows the number of issues found by each tool, categorized by the mapping described in Section \ref{sec:data_preprocessing}.
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|l|c|c|}
+  \hline
+  \textbf{Category} & \textbf{PMD Issues} & \textbf{SonarQube Issues} \\
+  \hline
+  Code Style           & 496 & 308 \\
+  Best Practices       & 190 & 207 \\
+  Design               & 154 & 505 \\
+  Error Prone          & 135 & 702 \\
+  Documentation        & 84  & 0 \\
+  Multithreading       & 8   & 12 \\
+  Performance          & 6   & 61 \\
+  \textbf{TOTAL}       & \textbf{1074} & \textbf{1327} \\
+  \hline
+  \end{tabular}
+  \caption{Summary of Issues by Category for PMD and SonarQube}
+  \label{tab:sonarqube_pmd_comparison}
+\end{table}
+
+\noindent As is possible to see, SonarQube generally found more issues than PMD, expecially in the \textit{Design} and \textit{Error Prone} categories, while PMD found more issues in the \textit{Code Style} category. The \textit{Documentation} category is exclusive to PMD, as SonarQube does not provide a similar category. This result hinting that each tool has different strengths and weaknesses, and that the combination of both tools can provide a more comprehensive analysis of the codebase.
+
+It is important to highlight that PMD analysis has been executed using the \texttt{quickstart} rule set (refer to \autoref{sec:pmd_usage}), which is more focused on code style and best practices, while SonarQube uses a more comprehensive set of default rules. This could explain the higher number of issues found by SonarQube, as it has a more detailed analysis of the codebase. This was decided to provide a more fair comparison between the two tools, as the default rule sets are the most commonly used by developers.
+
+\subsection{Project quality}
+
+From the results in \autoref{tab:sonarqube_pmd_comparison}, it is possible to see that the codebase has a large number of issues, especially. This indicates that the codebase has a number of potential bugs, security vulnerabilities, and design issues that could be addressed to improve the overall quality of the project.
+
+\subsection{Analysis quality and coverage}
+
+\subsection{False positives}
+
+\subsection{False negatives}
+
