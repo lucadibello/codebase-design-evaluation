@@ -1,22 +1,22 @@
-\section{Analysis of results}
+\section{Analysis of Results}
 
-By running the two tools on the codebase, we were able to find a large number of issues: \textit{PMD} found 1074 issues, while \textit{SonarQube} found over 1300 issues. Both tools already divide the issues into categories, allowing an easier analysis of the results.
+By running the two tools on the codebase, we were able to find a large number of issues: \textit{PMD} found 1074 issues, while \textit{SonarQube} found over 1300 issues. Both tools already divide the issues into categories, allowing for easier analysis of the results.
 
-\subsection{Data preprocessing and mapping}
+\subsection{Data Preprocessing and Mapping}
 \label{sec:data_preprocessing}
 
-The two tools recognize different kinds of issues, and the way they categorize them. As the two sets of issues are not directly comparable, was developed a Python script that reads the output of both tools and extracts the categories of issues detected, counting the number of issues in each category.
+The two tools recognize different kinds of issues, and the way they categorize them differs. As the two sets of issues are not directly comparable, a Python script was developed to read the output of both tools and extract the categories of issues detected, counting the number of issues in each category.
 
-SonarQube found 21 different categories, providing a more detailed analysis of the issues. PMD, on the other hand, provides a more general categorization of the issues, with only 7 categories. As such, we decided to map the SonarQube categories to the PMD categories, in order to provide a more general overview of the issues found by both tools. The mapping is as follows:
+SonarQube found 21 different categories, providing a more detailed analysis of the issues. PMD, on the other hand, provides a more general categorization with only 7 categories. Therefore, we decided to map the SonarQube categories to the PMD categories to provide a more general overview of the issues identified by both tools. The mapping is as follows:
 
 \begin{itemize}
-    \item \textbf{Code Style:} Included SonarQube's \textit{convention}, \textit{unused}, \textit{confusing}, \textit{clumsy}, \textit{obsolete}, \textit{duplicate}, and \textit{redundant}, \textit{brain-overload} categories. Issues in this category are related to the code's readability and maintainability, and the misuse of Java features.
+    \item \textbf{Code Style:} Mapped from SonarQube's \textit{convention}, \textit{unused}, \textit{confusing}, \textit{clumsy}, \textit{obsolete}, \textit{duplicate}, and \textit{redundant}, \textit{brain-overload} categories. Issues in this category are related to code readability and maintainability, and the misuse of Java features.
 
-    \item \textbf{Best Practices:} Mapped from SonarQube's \textit{java8}, \textit{bad-practice}, and \textit{serialization} categories. These issues are related to the code's quality, and the misuse of Java features.
+    \item \textbf{Best Practices:} Mapped from SonarQube's \textit{java8}, \textit{bad-practice}, and \textit{serialization} categories. These issues relate to code quality and the misuse of Java features.
 
-    \item \textbf{Design:} Included SonarQube's \textit{design} and \textit{brain-overload} categories, focused on architectural and design quality. The \textit{brain-overload} category was included in this category as it relates to the complexity of the code, alerting when a class or method is considered too complex (cyclomatic complexity, nesting, etc.).
+    \item \textbf{Design:} Includes SonarQube's \textit{design} and \textit{brain-overload} categories, focusing on architectural and design quality. The \textit{brain-overload} category is included here as it relates to the complexity of the code, highlighting cases where a class or method is too complex (cyclomatic complexity, nesting, etc.).
 
-     Furthermore, was later decided to add map \textit{brain-overload} category also to the \textit{Code Style} category, as it strictly relates to the readability and maintainability of the code.
+    Furthermore, it was later decided to map the \textit{brain-overload} category to the \textit{Code Style} category as well, as it also relates to the readability and maintainability of the code.
 
     \item \textbf{Error Prone:} Mapped from SonarQube's \textit{cert}, \textit{pitfall}, \textit{suspicious}, \textit{cwe}, \textit{error-handling}, \textit{owasp-a3}, and \textit{leak} categories, each addressing issues that could lead to potential bugs or security vulnerabilities.
 
@@ -55,17 +55,17 @@ After preprocessing the data, we were able to compare the results of the two too
 
 This difference in focus highlights the complementary nature of these tools. Using both tools together can yield a more comprehensive analysis, combining PMD's focus on code style and best practices with SonarQube's broader approach to design, performance, and error-prone code.
 
-It is important to note that PMD was run using the \texttt{quickstart} rule set (refer to \autoref{sec:pmd_usage}), which targets core code style and best practice rules, while SonarQube’s analysis was conducted with its default comprehensive rule set. This choice was made to ensure a balanced comparison, as the default rule sets reflect typical configurations that many developers would use. The broader scope of SonarQube’s rules likely accounts for the higher number of issues detected.
+It is important to note that PMD was run using the \texttt{quickstart} rule set (refer to Section \ref{sec:pmd_usage}), which targets core code style and best practice rules, while SonarQube’s analysis was conducted with its default comprehensive rule set. This choice was made to ensure a balanced comparison, as the default rule sets reflect typical configurations that many developers would use. The broader scope of SonarQube’s rules likely accounts for the higher number of issues detected.
 
 \subsection{Project Quality Assessment}
 
-From the results in \autoref{tab:sonarqube_pmd_comparison}, it is evident that the codebase has a significant number of issues, particularly in categories associated with potential bugs, security vulnerabilities, and design improvements. These findings indicate areas where the project could benefit from enhancements, such as improved error handling, adherence to best design practices, and adjustments to address identified code style issues.
+From the results in Table \ref{tab:sonarqube_pmd_comparison}, it is evident that the codebase has a significant number of issues, particularly in categories associated with potential bugs, security vulnerabilities, and design improvements. These findings indicate areas where the project could benefit from enhancements, such as improved error handling, adherence to best design practices, and adjustments to address identified code style issues.
 
-Addressing the issues highlighted by both tools would likely improve the overall quality of the project, contributing to better maintainability, readability, and potentially reducing future bug occurrences. This disproves the initial hypothesis made in \autoref{sec:initial_expectations}, which stated that the project would have a low number of issues. The results suggest that the project could benefit from a more thorough review and refactoring to address the identified issues.
+Addressing the issues highlighted by both tools would likely improve the overall quality of the project, contributing to better maintainability, readability, and potentially reducing future bug occurrences. This contradicts the initial hypothesis made in Section \ref{sec:initial_expectations}, which suggested that the project would have a low number of issues. The results indicate that the project could benefit from a more thorough review and refactoring to address the identified issues.
 
-On the other hand, after a brief manual inspection of the issues, it was observed that some of the issues detected by the tools are minor and may be false positives. These issues may not necessarily indicate a problem in the codebase but are flagged due to the tools' static analysis approach. False positives can be a common occurrence in static analysis tools, especially when dealing with complex codebases or specific programming patterns that the tools may not fully understand.
+After a brief manual inspection of the issues, it was observed that some of the issues detected by the tools are minor and may be false positives. These issues may not necessarily indicate a problem in the codebase but are flagged due to the tools' static analysis approach. False positives can be a common occurrence in static analysis tools, especially when dealing with complex codebases or specific programming patterns that the tools may not fully understand.
 
-SonarQube provides a scoring system that assesses the overall quality of the project, based on the number and severity of issues detected per category. The project quality score is calculated based on the number of issues in each category and their severity, providing a quantitative measure of the project's quality. Even though the project quality score is not the focus of this analysis, it can be a useful metric for evaluating the overall health of the codebase. \autoref{tab:sonar_project_quality} shows the project quality score for the codebase.
+SonarQube provides a scoring system that assesses the overall quality of the project based on the number and severity of issues detected per category. The project quality score is calculated from the number of issues in each category and their severity, providing a quantitative measure of the project's quality. Even though the project quality score is not the focus of this analysis, it can be a useful metric for evaluating the overall health of the codebase. Table \ref{tab:sonar_project_quality} shows the project quality score for the codebase.
 
 \begin{table}[H]
   \caption{SonarQube project quality score}
@@ -84,14 +84,14 @@ SonarQube provides a scoring system that assesses the overall quality of the pro
   \end{center}
 \end{table}
 
-\noindent From the project quality score in \autoref{tab:sonar_project_quality}, it can be seen that the project even though was found to have a significant number of issues,  has a high score in the \textit{Security} and \textit{Maintainability} categories. After a brief research, it was found that SonarQube is known to report many issues that are not necessarily problems in the codebase, which may explain the high number of issues detected while still having a high score in the \textit{Security} and \textit{Maintainability} categories. This could be a reason for the high number of issues found in the \textit{Error Prone} category.
+\noindent From the project quality score in Table \ref{tab:sonar_project_quality}, it can be seen that, although the project has a significant number of issues, it still scores highly in the \textit{Security} and \textit{Maintainability} categories. Research shows that SonarQube is known to report many issues that are not necessarily problems in the codebase, which may explain the high number of issues detected alongside a high score in the \textit{Security} and \textit{Maintainability} categories. This could also contribute to the high number of issues found in the \textit{Error Prone} category.
 
 \subsubsection{False Positives}
 
-Unfortunately, SonarQube found 20 possible bugs inside the project, explaining the low score in the \textit{Reliability} category in \autoref{tab:sonar_project_quality}. This is a serious issue that should be addressed as soon as possible, as it may lead to potential bugs and security vulnerabilities in the codebase. By manually inspecting each reported bug, it was possible to notice that all of them are generated by a two common patterns in the codebase. The following listing details the results of the manual inspection:
+SonarQube identified 20 possible bugs in the project, explaining the lower score in the \textit{Reliability} category in Table \ref{tab:sonar_project_quality}. This is a serious issue that should be addressed promptly, as it may lead to potential bugs and security vulnerabilities in the codebase. A manual inspection of each reported bug revealed that all of them arise from two common patterns in the codebase. The following listing details the results of the manual inspection:
 
 \begin{enumerate}
-  \item \textit{Use "remove()" instead of "set(null)"} - This issue is reported every time is found a method that sets a variable to \texttt{null} rather than using the \texttt{remove} method (when available). For this reason, every call to \texttt{threadLocal.set(null)} is reported as a bug. The following listing shows an example code snippet that generates this issue:
+  \item \textit{Use "remove()" instead of "set(null)"} - This issue is reported every time a method sets a variable to \texttt{null} rather than using the \texttt{remove} method (when available). For this reason, every call to \texttt{threadLocal.set(null)} is reported as a bug. The following listing shows an example code snippet that generates this issue:
 
     \begin{lstlisting}[language=Java]
       if (threadLocal.get() != null) {
@@ -101,9 +101,9 @@ Unfortunately, SonarQube found 20 possible bugs inside the project, explaining t
       }
     \end{lstlisting}
 
-    \noindent This bug is a false positive, as after every \texttt{set(null)} operation, there is an additional call to \texttt{remove()} for additional safety. This ensure that the pointer is correctly dereferenced and the variable is removed from the map. This is a common pattern in the codebase, leading to a large number of false positives reported.
+    \noindent This bug is a false positive, as every \texttt{set(null)} operation is followed by a call to \texttt{remove()} for added safety. This ensures that the pointer is correctly dereferenced and the variable removed from the map. This pattern is common in the codebase, leading to numerous false positives.
 
-  \item \textit{Catch "InterruptedException" when not expected} - This issue is reported when a method catches an \texttt{InterruptedException} but does not handle it properly. This can lead to potential bugs, as the thread may not be interrupted correctly, causing unexpected behavior. After carefully inspecting each triggered bug for this particular pattern, was possible to notice that all of them are false positives triggered by the same operation pattern. The following listing shows the code snippet that generates this issue:
+  \item \textit{Catch "InterruptedException" when not expected} - This issue is reported when a method catches an \texttt{InterruptedException} but does not handle it properly. This can lead to potential bugs, as the thread may not be interrupted correctly, causing unexpected behavior. After carefully inspecting each triggered bug for this pattern, it was noticed that all instances are false positives triggered by the same operation pattern. The following listing shows the code snippet that generates this issue:
     \begin{lstlisting}[language=Java]
       ...
 
@@ -116,12 +116,9 @@ Unfortunately, SonarQube found 20 possible bugs inside the project, explaining t
 
       ...
     \end{lstlisting}
-    \noindent This bug is a false positive, as the \texttt{InterruptedException} is caught and handled properly in the codebase. This is a common pattern in the codebase, leading to a large number of false positives reported.
+    \noindent This bug is a false positive, as the \texttt{InterruptedException} is caught and handled properly in the codebase. This pattern is common in the codebase, leading to many false positives.
 \end{enumerate}
 
-\noindent We can conclude that the project does not have any real bugs, as all of the reported bugs are false positives. This is a common issue with static analysis tools, as they may not fully understand the context or specific patterns in the codebase, leading to false positives.
+\noindent We conclude that the project does not contain any real bugs, as all of the reported bugs are false positives. This is a common issue with static analysis tools, as they may not fully understand the context or specific patterns in the codebase, leading to false positives.
 
-This highlights the importance of manual inspection and verification of the reported issues to ensure that they are valid and require attention. Unfortunately, due to the large number of issues reported, manual inspection of each triggered issue is not feasible. However, by identifying common patterns that generate false positives, it is possible to filter out these issues and focus on the real problems in the codebase.
-
-\subsection{False positives}
-
+This highlights the importance of manual inspection and verification of the reported issues to ensure they are valid and require attention. Due to the large number of issues reported, manually inspecting each one is not feasible. However, by identifying common patterns that generate false positives, it is possible to filter out these issues and focus on the real problems in the codebase.
