@@ -23,9 +23,9 @@ In order to provide a interesting analysis of a project, and also to learn more 
 	\item \href{https://github.com/hibernate/hibernate-orm}{hibernate/hibernate-orm}: The \textit{Hibernate ORM} is one of the most popular Java Object-Relational Mapping (ORM) frameworks, allowing developers to map Java objects to database tables and vice versa, facilitating the development of database-driven applications. The project has 6k stars, 3.5k forks, 232 open issues and over 1.3M LOC (comments excluded). \textit{Hibernate} is widely used in the industry and has a large community of developers, making it a perfect candidate for the analysis.
 	      Similar to the previous project, the size of the codebase was considered too large for the scope of the assignment, and was therefore discarded.
 
-	\item \href{https://github.com/resilience4j/resilience4j}{resilience4j/resilience4j}: Library to improve resiliency and fault tolerance in Java projects, providing a set of modules to face common issues such as rate limiting, circuit breaking, automatic retrying and more. The project has 9.8k stars, 1.3k forks, 219 open issues and around 80k LOC (comments excluded). This project was inspired by the Netflix \href{https://github.com/Netflix/Hystrix}{Hystrix} fault-tolerance library. Since \textit{Hystrix} is no longer in active development, the Netflix team advised users to migrate to \textit{resilience4j}. \cite{hystrix:readme}
+	\item \href{https://github.com/resilience4j/resilience4j}{resilience4j/resilience4j}: Library to improve resiliency and fault tolerance in Java projects, providing a set of modules to face common issues such as rate limiting, circuit breaking, automatic retrying and more. The project has 9.8k stars, 1.3k forks, 219 open issues and around 80k LOC (comments excluded) across 6 different modules. This project was inspired by the Netflix \href{https://github.com/Netflix/Hystrix}{Hystrix} fault-tolerance library. Since \textit{Hystrix} is no longer in active development, the Netflix team advised users to migrate to \textit{resilience4j}. \cite{hystrix:readme}
 
-	      The \textit{resilience4j} library is actively maintained and employed by many companies in their production systems. Due to its smaller size and its utility in real-world applications, this project was chosen for the analysis.
+	      The \textit{resilience4j} library is actively maintained by over 100 contributors and employed by many companies in their production systems. Due to its smaller size and its utility in real-world applications, this project was chosen for the analysis.
 
 \end{itemize}
 
@@ -48,9 +48,9 @@ The additional flag \texttt{-x test} is used to skip the execution of the severa
 \subsection{Initial expectations and analysis strategy}
 \label{sec:initial_expectations}
 
-Due to its intensive use, and the large community behind the project, we expect to find a well-structured codebase with a good level of maintainability and readability. The project is actively maintained and receives regular updates, which should ensure that the codebase is up-to-date and follows the latest best practices in Java development.
+Due to its intensive use and the large community behind the project, we expect the \textit{resilienc4j} codebase to exhibit a high level of maintainability and readability. The project is actively maintained and receives regular updates, which should ensure that the codebase is up-to-date and follows the latest best practices in Java development. Given the nature of \textit{resilience4j} we expect a focus on performance and reliability, with a strong emphasis on error handling and fault tolerance.
 
-However, due to the size of the codebase we still expect to find some minor issues, but is still expected to find an high-quality codebase. This theory is supported by the fact that the project has a large number of contributors, and each pull request apart from being reviewed by the maintainers, is also automatically tested using GitHub actions. In fact, by the configured GitHub actions, is possible to see that for some PRs the project employes SonarCloud to automatically check the code quality of the changes. This is a good indicator that the project maintainers care about the code quality and are actively working to improve it. Refer to the GitHub actions configuration file \href{https://github.com/resilience4j/resilience4j/blob/master/.github/workflows/gradle-build.yml#L54}{here}.
+However, due to the size of the codebase, we still expect to find some minor issues, though we anticipate an overall high-quality codebase. This theory is supported by the fact that the project has a large number of contributors, and each pull request apart from being reviewed by the maintainers, is also automatically tested using GitHub actions. In fact, by the configured GitHub actions, is possible to see that for some PRs the project employes SonarCloud to automatically check the code quality of the changes. This is a good indicator that the project maintainers care about the code quality and are actively working to improve it. Refer to the GitHub actions configuration file \href{https://github.com/resilience4j/resilience4j/blob/master/.github/workflows/gradle-build.yml#L54}{here}.
 
 Inside this report we will only analyze files related to the core library, leaving behind the test files provided by the project. The test suites are not relevant for the analysis of the code quality, as they do not represent the actual functionality of the library. To do so, we will instruct the scanning tools to ignore the test files and focus only on relevant ones.
 
@@ -71,13 +71,13 @@ In order to run the PMD static code analysis tool, we need to define some import
   --use-version java-17 --report-file /path/to/report.csv
 \end{lstlisting}
 
-\noindent To perform a comprehensive scan of the whole codebase, was decided to use the \texttt{quickstart} ruleset, as it include a set of rules that are considered to be the most important and useful for a general-purpose analysis. This ruleset represents a good starting point to detect common coding flaws and anti-patterns, allowing to have a general overview of the project's code quality. Refer to the \href{https://pmd.github.io/pmd/pmd_rules_java.html#additional-rulesets}{PMD documentation} for a complete list of rules included in the \texttt{quickstart} ruleset.
+\noindent To perform a comprehensive scan of the whole codebase, was decided to use the \texttt{quickstart} ruleset for its good balance of general-purpose rules that cover a wide range of coding flaws and anti-patterns considered industry-standard. This ruleset represents a good starting point, allowing to have a general overview of the project's code quality. Refer to the \href{https://pmd.github.io/pmd/pmd_rules_java.html#additional-rulesets}{PMD documentation} for a complete list of rules included in the \texttt{quickstart} ruleset.
 
 The output format was set to \texttt{csv} in order to easily preprocess the results. Refer to \autoref{sec:data_preprocessing} for more details.
 
 \paragraph{SonarQube}
 
-On the other hand, the SonarQube code analysis tool requires a more complex setup, as we need to install the \textit{SonarQube Scanner CLI} and configure a local \textit{SonarQube Server} instance. The latter is necessary to store the results of the analysis and to provide a web interface to visualize the detected issues.
+On the other hand, the SonarQube code analysis tool requires a more complex setup, as we need to install the \textit{SonarQube Scanner CLI} and configure a local \textit{SonarQube Server} instance where the results of the analysis will be stored. The SonarQube Scanner CLI is used to analyze the codebase of a project and send the results to the SonarQube Server, which provides a web interface to visualize the detected issues.
 
 In order to start the SonarQube server, we can use the pre-built Docker image provided by the SonarQube team. We can start the container using the following command:
 
@@ -95,6 +95,8 @@ docker run --name sonarqube-server -p 9000:9000 sonarqube:lts-community
                 -Dsonar.scanner.skipJreProvisioning=true
 \end{lstlisting}
 
+Was decided to use the default SonarQube ruleset in order to capture a wide-range of issues, providing a common ground for the analysis of the results of the two tools. Refer to the \href{https://docs.sonarqube.org/latest/analysis/languages/java/}{SonarQube documentation} for a complete list of rules included in the default ruleset.
+
 \noindent \textit{Note:} by default the SonarQube Server credentials are set to \texttt{admin:admin}. After the first login, the password can be changed to a more secure one.
 
-As the tool does does not provide any way to export the results in a CSV format, offering only a web interface to visualize the detected issues, the different categories of issues found by SonarQube and the relative counts were manually and stored in a CSV file to allow a comparison with the PMD results in a programmatic way. Refer to \autoref{sec:data_preprocessing} for more details.
+Furthermore, since SonarQube does not provide an option to export results directly to CSV, we manually exported the issue counts in a CSV file to allow programmatic comparison with the PMD results. Refer to \autoref{sec:data_preprocessing} for more details.

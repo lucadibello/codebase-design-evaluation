@@ -1,6 +1,6 @@
 \section{Analysis of Results}
 
-By running the two tools on the codebase, we were able to find a large number of issues: \textit{PMD} found 1074 issues, while \textit{SonarQube} found over 1300 issues. Both tools already divide the issues into categories, allowing for easier analysis of the results.
+By running the two tools on the codebase, we were able to find a large number of issues: PMD found 1074 issues, while SonarQube found over 1300 issues. Both tools already divide the issues into categories, allowing for easier analysis of the results.
 
 \subsection{Data Preprocessing and Mapping}
 \label{sec:data_preprocessing}
@@ -55,7 +55,9 @@ After preprocessing the data, we were able to compare the results of the two too
 
 This difference in focus highlights the complementary nature of these tools. Using both tools together can yield a more comprehensive analysis, combining PMD's focus on code style and best practices with SonarQube's broader approach to design, performance, and error-prone code.
 
-It is important to note that PMD was run using the \texttt{quickstart} rule set (refer to Section \ref{sec:pmd_usage}), which targets core code style and best practice rules, while SonarQube’s analysis was conducted with its default comprehensive rule set. This choice was made to ensure a balanced comparison, as the default rule sets reflect typical configurations that many developers would use. The broader scope of SonarQube’s rules likely accounts for the higher number of issues detected.
+It is important to note that PMD was run using the \texttt{quickstart} rule set (refer to Section \ref{sec:pmd_usage}), which puts particular attention on code style and the detection of best practices, while SonarQube’s analysis was conducted with its default comprehensive rule set. 
+
+As already discussed, this choice was made to ensure a balanced comparison, as the default rule sets reflect typical configurations that many developers would use. These results suggest that SonarQube’s default rule set is more comprehensive than PMD’s \texttt{quickstart} rule set, providing a richer set of issues across different categories.
 
 \subsection{Project Quality Assessment}
 
@@ -68,7 +70,6 @@ After a brief manual inspection of the issues, it was observed that some of the 
 SonarQube provides a scoring system that assesses the overall quality of the project based on the number and severity of issues detected per category. The project quality score is calculated from the number of issues in each category and their severity, providing a quantitative measure of the project's quality. Even though the project quality score is not the focus of this analysis, it can be a useful metric for evaluating the overall health of the codebase. Table \ref{tab:sonar_project_quality} shows the project quality score for the codebase.
 
 \begin{table}[H]
-  \caption{SonarQube project quality score}
   \label{tab:sonar_project_quality}
   \begin{center}
     \begin{tabular}[c]{l|l}
@@ -82,9 +83,10 @@ SonarQube provides a scoring system that assesses the overall quality of the pro
       \hline
     \end{tabular}
   \end{center}
+  \caption{SonarQube project quality score - A is the highest score, F is the lowest}
 \end{table}
 
-\noindent From the project quality score in Table \ref{tab:sonar_project_quality}, it can be seen that, although the project has a significant number of issues, it still scores highly in the \textit{Security} and \textit{Maintainability} categories. Research shows that SonarQube is known to report many issues that are not necessarily problems in the codebase, which may explain the high number of issues detected alongside a high score in the \textit{Security} and \textit{Maintainability} categories. This could also contribute to the high number of issues found in the \textit{Error Prone} category.
+\noindent From the project quality score in Table \ref{tab:sonar_project_quality}, it can be seen that, although the project has a significant number of issues, it still scores highly in the \textit{Security} and \textit{Maintainability} categories. Research shows that SonarQube is known to report many issues that are not necessarily problems in the codebase, which may explain the high number of issues detected alongside a high score in the \textit{Security} and \textit{Maintainability} categories. This could also contribute to the high number of issues found in the \textit{Error Prone} category in \autoref{tab:sonarqube_pmd_comparison}.
 
 \subsubsection{False Positives}
 
@@ -122,3 +124,6 @@ SonarQube identified 20 possible bugs in the project, explaining the lower score
 \noindent We conclude that the project does not contain any real bugs, as all of the reported bugs are false positives. This is a common issue with static analysis tools, as they may not fully understand the context or specific patterns in the codebase, leading to false positives.
 
 This highlights the importance of manual inspection and verification of the reported issues to ensure they are valid and require attention. Due to the large number of issues reported, manually inspecting each one is not feasible. However, by identifying common patterns that generate false positives, it is possible to filter out these issues and focus on the real problems in the codebase.
+
+On the other hand, by manually sampling and analyzing the issues reported by PMD, it was observed that all of them are true positive instances. Since the chosen rule set focuses on code style and best practices, properties that are simpler to detect than complex bugs or design issues, problems detected by this tool are less likely to be false positives. This would explain the absence of false positives in the manual inspection of PMD issues.
+
