@@ -105,7 +105,8 @@ SonarQube identified 20 possible bugs in the project, explaining the lower score
 
 	      \noindent This instance is a false positive, as every \texttt{set(null)} operation is followed by a \texttt{remove()} call for added safety. This ensures that the pointer is correctly dereferenced and the variable removed from the map. This pattern is common in the codebase, leading to numerous false positives.
 
-	\item \textit{Catch "InterruptedException" when not expected} - This issue is reported when a method catches an \texttt{InterruptedException} but does not handle it properly. This can lead to potential bugs, as the thread may not be interrupted correctly, causing unexpected behavior. After carefully inspecting each triggered bug for this pattern, it was noticed that all instances are false positives triggered by the same operation pattern. The following listing shows the code snippet that generates this issue:
+	\item \textit{Catch "InterruptedException" when not expected} - This issue is reported when the code specifies a try-catch block to intercept \texttt{InterruptedException} exceptions, but the interruption is not expected. After carefully inspecting each reported bug for this particular issue, it was noticed that all instances are false positives triggered by the same operation pattern in the codebase. The following listing shows an example code snippet that generates this issue:
+
 	      \begin{lstlisting}[language=Java]
       ...
 
@@ -118,7 +119,8 @@ SonarQube identified 20 possible bugs in the project, explaining the lower score
 
       ...
     \end{lstlisting}
-	      \noindent This bug is a false positive, as the \texttt{InterruptedException} is caught and handled properly in the codebase. This pattern is common in the codebase, leading to many false positives.
+	      \noindent  This bug is a false positive, as \texttt{Thread.sleep()} is known to throw an \texttt{InterruptedException} when the thread is interrupted. Hence, the reported bug is a false positive, as the exception is expected and handled correctly.
+
 \end{enumerate}
 
 \noindent Hence, it can be that the project does not contain any real bug, as all of the reported bugs are false positives. This is a common issue with static analysis tools, as they may not fully understand the context or specific patterns in the codebase, leading to false positives.
