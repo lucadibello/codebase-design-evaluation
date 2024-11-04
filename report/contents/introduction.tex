@@ -73,7 +73,7 @@ In order to run the PMD static code analysis tool, we need to define some import
 
 \noindent For a comprehensive codebase scan, the \texttt{quickstart} ruleset was selected for its balanced set of general-purpose rules that cover a wide range of coding flaws and anti-patterns considered industry-standard. This ruleset represents a good starting point, allowing to have a general overview of the project's code quality. Refer to the \href{https://pmd.github.io/pmd/pmd_rules_java.html#additional-rulesets}{PMD documentation} for a complete list of rules included in the \texttt{quickstart} ruleset.
 
-The output format was set to \texttt{csv} in order to easily preprocess the results. Refer to \autoref{sec:data_preprocessing} for more details.
+The output format was set to \texttt{csv} in order to easily preprocess the results. Furthermore, since the PMD does not provide flags to exclude specific files or directories from the analysis using a regular expression, the test files were manually excluded from the analysis during a data preprocessing phase. Refer to \autoref{sec:data_preprocessing} for more details
 
 \paragraph{SonarQube}
 
@@ -92,7 +92,8 @@ docker run --name sonarqube-server -p 9000:9000 sonarqube:lts-community
                 -Dsonar.sources=/path/to/resilience4j 
                 -Dsonar.host.url=http://localhost:9000 \
                 -Dsonar.login=admin -Dsonar.password=admin \
-                -Dsonar.scanner.skipJreProvisioning=true
+                -Dsonar.scanner.skipJreProvisioning=true \
+                -Dsonar.exclusions=resilience4j/**/test/**
 \end{lstlisting}
 
 The default SonarQube ruleset was chosen to capture a broad range of issues thus providing a common basis for comparing the tools results. Refer to the \href{https://docs.sonarqube.org/latest/analysis/languages/java/}{SonarQube documentation} for a complete list of rules included in the default ruleset.

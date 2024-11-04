@@ -14,6 +14,18 @@ attach: devcontainer
 build:
 	cd $(DIR) && $(GRADLE) build -x test
 
+export:
+	@cd report && pandoc assignment_report.tex -o ../README.md \
+    --from=latex \
+    --to=gfm \
+    --wrap=none \
+    --standalone \
+    --highlight-style=pygments \
+    --toc \
+    --number-sections \
+    --filter pandoc-crossref \
+    --citeproc
+
 
 # Phony targets
 .PHONY: devcontainer build sonarqube attach
