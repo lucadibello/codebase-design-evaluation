@@ -1,4 +1,4 @@
-# resilienc4j - Codebase Design Evaluation
+# resilience4j - Codebase Design Evaluation
 
 - [<span class="toc-section-number">1</span> Introduction](#introduction)
   - [<span class="toc-section-number">1.1</span> Project selection](#project-selection)
