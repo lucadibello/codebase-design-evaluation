@@ -1,20 +1,20 @@
 \section{Introduction}
 
-In this assignment we are asked to leverage multiple specialized tools to scan a chosen open-source project in order to automatically detect design flaws such as code smells and anti-patterns. The results will be condensed inside a single report in order to provide a detailed analysis of the project's codebase, and to identify potential areas for improvement in terms of code quality and maintainability.
+This assignment requires leveraging multiple specialized tools to scan a selected open-source project in order to automatically detect design flaws such as code smells and anti-patterns. The results will be compiled in a single report to provide a detailed analysis of the project's codebase and identify potential areas for improvement in code quality and maintainability.
 
-To address this task, we are going to use \href{https://www.sonarqube.org}{SonarQube} and \href{https://pmd.github.io/}{PMD} static code analysis tools, which are widely used in the industry to detect a wide range of coding flaws and bad practices:
+To address this task, \href{https://www.sonarqube.org}{SonarQube} and \href{https://pmd.github.io/}{PMD} static code analysis tools will be utilised, which are both tools are widely used in the industry to detect a wide range of coding flaws and bad practices.
 
-Similarly to the previous assignment, the chosen open-source project must satisfy the following requirements: at least 100 stars, 100 forks, 10 open issue, and at least 50'000 lines of Java code (comments included). In order to find a valid project, the GitHub search feature was used, filtering the results based on the cited requirements. To do so, the following search query was used:
+Similar to the previous assignment, the chosen open-source project must meet the following requirements: at least 100 stars, 100 forks, 10 open issue, and at least 50'000 lines of Java code (comments included). In order to find a valid project, the GitHub search feature was used, filtering the results based on the cited requirements. To do so, the following search query was used:
 
 \begin{lstlisting}[caption=GitHub search query]
                     stars:>100 forks:>100 language:java
 \end{lstlisting}
 
-\noindent However, as the Github search feature does not provide any filtering options for the number of open issues or the total number of lines of code, each result was manually inspected to ensure its requirements were satisfied. To count the total lines of code (later referred as \emph{LOC}) of a project, the web application \href{https://codetabs.com/count-loc/count-loc-online.html}{Count LOC} was used. Using this tool, we are able to easily determine the LOC count of a project by providing the URL of the GitHub repository, without the need to clone the repository locally.
+\noindent Since GitHub's search feature does not offer filters for open issues or total number of lines of code, each result was manually inspected to ensure its requirements were satisfied. To count the total lines of code (later referred as \emph{LOC}) of a project, the web application \href{https://codetabs.com/count-loc/count-loc-online.html}{Count LOC} was used. Using this tool, we are able to easily determine the LOC count of a project by providing the URL of the GitHub repository, without the need to clone the repository locally.
 
 \subsection{Project selection}
 
-In order to provide a interesting analysis of a project, and also to learn more about code quality in large open-source projects, the search was focused on active projects with a large community and a good number of stars and forks. After selecting a few projects that satisfied the requirements, three were chosen for further inspection:
+To provide a meaningful analysis and gain insights into code quality in large open-source projects, the search was focused on active projects with a large community and a good number of stars and forks. After selecting a few projects that satisfied the requirements, three were chosen for further inspection:
 
 \begin{itemize}
 	\item \href{https://github.com/apache/camel}{apache/camel}: An open-source integration framework based on known Enterprise Integration Patterns (EIPs). \cite{camel:description} \textit{Apache Camel} provides the tools to connect different messaging systems and protocols, providing easy integration and routing of messages across different systems. The project has 5.5k stars, 4.5k forks, 455 open issues (refer to Jira dashboard \href{https://issues.apache.org/jira/projects/CAMEL/issues/CAMEL-21410?filter=allopenissues}{here}) and around 1.5M LOC. This project was selected as it represents a large and complex project, used in many production environments.
@@ -31,13 +31,13 @@ In order to provide a interesting analysis of a project, and also to learn more 
 
 \subsection{High-level overview of the project structure}
 
-The \textit{resilience4j} library includes six main modules designed to improve application resiliency: \textit{CircuitBreaker} to prevent cascading failures, \textit{RateLimiter} to control request rates, \textit{Bulkhead} to limit concurrent calls, \textit{Retry} for automatic retries, \textit{TimeLimiter} for operation timeouts, and \textit{Cache} for storing results to enhance efficiency. Each module is self-contained, allowing developers to use only the necessary features without including the entire library. Each module defines its own testing suite to ensure the correctness of the implementation.
+The \textit{resilience4j} library includes six main modules designed to improve application resiliency: \textit{CircuitBreaker} to prevent cascading failures, \textit{RateLimiter} to control request rates, \textit{Bulkhead} to limit concurrent calls, \textit{Retry} for automatic retries, \textit{TimeLimiter} for operation timeouts, and \textit{Cache} for storing results to enhance efficiency. Each module is self-contained, allowing developers to use only the necessary features without including the entire library. Each module includes its own testing suite to ensure implementation correctness and reliability.
 
 The library also offers adapters for popular frameworks (such as \textit{Spring Boot}, \textit{Micronaut}, \textit{Reactor}) and libraries (like \textit{RxJava} and \textit{CompletableFuture}).
 
 \subsection{Building the project}
 
-The project utilizes the \href{https://gradle.org/}{Gradle} build system to manage dependencies and build the project. Thanks to the \href{https://docs.gradle.org/current/userguide/gradle_wrapper.html}{Gradle Wrapper} script, it is possible to automatically configure the project and download the necessary dependencies without the need to install Gradle on the local machine. The following command can be used to build the project:
+The project utilizes the \href{https://gradle.org/}{Gradle} build system to manage dependencies and build the project. Thanks to the \href{https://docs.gradle.org/current/userguide/gradle_wrapper.html}{Gradle Wrapper} script, it is possible to automatically configure the project and download the necessary dependencies without the need to install Gradle on the local machine. The following command is used to build the project and generate the necessary artifacts:
 
 \begin{lstlisting}[language=C++, caption=Building the project]
                           ./gradlew build -x test
@@ -48,17 +48,17 @@ The additional flag \texttt{-x test} is used to skip the execution of the severa
 \subsection{Initial expectations and analysis strategy}
 \label{sec:initial_expectations}
 
-Due to its intensive use and the large community behind the project, we expect the \textit{resilienc4j} codebase to exhibit a high level of maintainability and readability. The project is actively maintained and receives regular updates, which should ensure that the codebase is up-to-date and follows the latest best practices in Java development. Given the nature of \textit{resilience4j} we expect a focus on performance and reliability, with a strong emphasis on error handling and fault tolerance.
+Due to its intensive use and the large community behind the project, we expect the \textit{resilienc4j} codebase to exhibit a high level of maintainability and readability. The project is actively maintained and receives regular updates, properties hinting an up-to-date codebase that follows the latest best practices in Java development. Given the nature of \textit{resilience4j}, a focus on performance, reliability, and robust error handling mechanisms is expected.
 
-However, due to the size of the codebase, we still expect to find some minor issues, though we anticipate an overall high-quality codebase. This theory is supported by the fact that the project has a large number of contributors, and each pull request apart from being reviewed by the maintainers, is also automatically tested using GitHub actions. In fact, by the configured GitHub actions, is possible to see that for some PRs the project employes SonarCloud to automatically check the code quality of the changes. This is a good indicator that the project maintainers care about the code quality and are actively working to improve it. Refer to the GitHub actions configuration file \href{https://github.com/resilience4j/resilience4j/blob/master/.github/workflows/gradle-build.yml#L54}{here}.
+This theory is supported by the fact that each pull request, apart from being reviewed by the maintainers, is also automatically tested using tailored GitHub actions. The configured GitHub actions show that for some critical \textit{pull requests}, the project employs \href{https://sonarcloud.io/}{SonarCloud} to automatically check the code quality of the changes. This is a good indicator that the project maintainers care about the code quality and are actively working to improve it. Refer to the \href{https://github.com/resilience4j/resilience4j/blob/master/.github/workflows/gradle-build.yml#L54}{GitHub actions configuration file} for more details.
 
 Inside this report we will only analyze files related to the core library, leaving behind the test files provided by the project. The test suites are not relevant for the analysis of the code quality, as they do not represent the actual functionality of the library. To do so, we will instruct the scanning tools to ignore the test files and focus only on relevant ones.
 
 \subsection{Usage of scanning tools}
 
-The usage of the scanning tools is straightforward, as both SonarQube and PMD provide a command-line interface to analyze the codebase of a project. In the following paragraphs, we will provide an overview of how to use each tool to analyze the \textit{resilience4j} project.
+The process of using mentioned scanning tools is straightforward; both SonarQube and PMD provide a comprehensive command-line interface that allows users to easily scan a project's codebase. The tools can be configured to use a specific \textit{ruleset}\footnote{Set of rules that the tool uses to detect issues in the codebase.}, which defines the coding rules that will be used to analyze the project.
 
-Since we are going to use two scanning tools and combine their results in a single report, we are going to use simple rulesets for each tool to avoid having too many false positives and to ensure a consistent analysis.
+Since the codebase will be scanned two different tools, and summarize their results inside single report, was decided to opt for a generic ruleset for each tool to provide a common ground for the analysis: if the two tools will detect similar issues, it will be easier to compare the results. In this way, we can ensure that the results are consistent and that the analysis is fair.
 
 \paragraph{PMD}
 \label{sec:pmd_usage}
@@ -71,7 +71,7 @@ In order to run the PMD static code analysis tool, we need to define some import
   --use-version java-17 --report-file /path/to/report.csv
 \end{lstlisting}
 
-\noindent To perform a comprehensive scan of the whole codebase, was decided to use the \texttt{quickstart} ruleset for its good balance of general-purpose rules that cover a wide range of coding flaws and anti-patterns considered industry-standard. This ruleset represents a good starting point, allowing to have a general overview of the project's code quality. Refer to the \href{https://pmd.github.io/pmd/pmd_rules_java.html#additional-rulesets}{PMD documentation} for a complete list of rules included in the \texttt{quickstart} ruleset.
+\noindent For a comprehensive codebase scan, the \texttt{quickstart} ruleset was selected for its balanced set of general-purpose rules that cover a wide range of coding flaws and anti-patterns considered industry-standard. This ruleset represents a good starting point, allowing to have a general overview of the project's code quality. Refer to the \href{https://pmd.github.io/pmd/pmd_rules_java.html#additional-rulesets}{PMD documentation} for a complete list of rules included in the \texttt{quickstart} ruleset.
 
 The output format was set to \texttt{csv} in order to easily preprocess the results. Refer to \autoref{sec:data_preprocessing} for more details.
 
@@ -95,7 +95,7 @@ docker run --name sonarqube-server -p 9000:9000 sonarqube:lts-community
                 -Dsonar.scanner.skipJreProvisioning=true
 \end{lstlisting}
 
-Was decided to use the default SonarQube ruleset in order to capture a wide-range of issues, providing a common ground for the analysis of the results of the two tools. Refer to the \href{https://docs.sonarqube.org/latest/analysis/languages/java/}{SonarQube documentation} for a complete list of rules included in the default ruleset.
+The default SonarQube ruleset was chosen to capture a broad range of issues thus providing a common basis for comparing the tools results. Refer to the \href{https://docs.sonarqube.org/latest/analysis/languages/java/}{SonarQube documentation} for a complete list of rules included in the default ruleset.
 
 \noindent \textit{Note:} by default the SonarQube Server credentials are set to \texttt{admin:admin}. After the first login, the password can be changed to a more secure one.
 

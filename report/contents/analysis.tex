@@ -10,21 +10,21 @@ The two tools recognize different kinds of issues, and the way they categorize t
 SonarQube found 21 different categories, providing a more detailed analysis of the issues. PMD, on the other hand, provides a more general categorization with only 7 categories. Therefore, we decided to map the SonarQube categories to the PMD categories to provide a more general overview of the issues identified by both tools. The mapping is as follows:
 
 \begin{itemize}
-    \item \textbf{Code Style:} Mapped from SonarQube's \textit{convention}, \textit{unused}, \textit{confusing}, \textit{clumsy}, \textit{obsolete}, \textit{duplicate}, and \textit{redundant}, \textit{brain-overload} categories. Issues in this category are related to code readability and maintainability, and the misuse of Java features.
+	\item \textbf{Code Style:} Mapped from SonarQube's \textit{convention}, \textit{unused}, \textit{confusing}, \textit{clumsy}, \textit{obsolete}, \textit{duplicate}, and \textit{redundant}, \textit{brain-overload} categories. Issues in this category are related to code readability and maintainability, and the misuse of Java features.
 
-    \item \textbf{Best Practices:} Mapped from SonarQube's \textit{java8}, \textit{bad-practice}, and \textit{serialization} categories. These issues relate to code quality and the misuse of Java features.
+	\item \textbf{Best Practices:} Mapped from SonarQube's \textit{java8}, \textit{bad-practice}, and \textit{serialization} categories. These issues relate to code quality and the misuse of Java features.
 
-    \item \textbf{Design:} Includes SonarQube's \textit{design} and \textit{brain-overload} categories, focusing on architectural and design quality. The \textit{brain-overload} category is included here as it relates to the complexity of the code, highlighting cases where a class or method is too complex (cyclomatic complexity, nesting, etc.).
+	\item \textbf{Design:} Includes SonarQube's \textit{design} and \textit{brain-overload} categories, focusing on architectural and design quality. The \textit{brain-overload} category is included here as it relates to the complexity of the code, highlighting cases where a class or method is too complex (cyclomatic complexity, nesting, etc.).
 
-    Furthermore, it was later decided to map the \textit{brain-overload} category to the \textit{Code Style} category as well, as it also relates to the readability and maintainability of the code.
+	      Furthermore, it was later decided to map the \textit{brain-overload} category to the \textit{Code Style} category as well, as it also relates to the readability and maintainability of the code.
 
-    \item \textbf{Error Prone:} Mapped from SonarQube's \textit{cert}, \textit{pitfall}, \textit{suspicious}, \textit{cwe}, \textit{error-handling}, \textit{owasp-a3}, and \textit{leak} categories, each addressing issues that could lead to potential bugs or security vulnerabilities.
+	\item \textbf{Error Prone:} Mapped from SonarQube's \textit{cert}, \textit{pitfall}, \textit{suspicious}, \textit{cwe}, \textit{error-handling}, \textit{owasp-a3}, and \textit{leak} categories, each addressing issues that could lead to potential bugs or security vulnerabilities.
 
-    \item \textbf{Multithreading:} Directly matched with SonarQube's \textit{multi-threading} category, dealing with concurrency-related issues.
+	\item \textbf{Multithreading:} Directly matched with SonarQube's \textit{multi-threading} category, dealing with concurrency-related issues.
 
-    \item \textbf{Performance:} Mapped from SonarQube's \textit{performance} category, highlighting areas where code efficiency could be improved.
+	\item \textbf{Performance:} Mapped from SonarQube's \textit{performance} category, highlighting areas where code efficiency could be improved.
 
-    \item \textbf{Documentation:} No matching categories in SonarQube; this category remains with issues only detected by PMD.
+	\item \textbf{Documentation:} No matching categories in SonarQube; this category remains with issues only detected by PMD.
 \end{itemize}
 
 \subsection{Comparison of Results}
@@ -32,58 +32,58 @@ SonarQube found 21 different categories, providing a more detailed analysis of t
 After preprocessing the data, we were able to compare the results of the two tools. \autoref{tab:sonarqube_pmd_comparison} shows the number of issues found by each tool, categorized based on the mapping described in Section \ref{sec:data_preprocessing}.
 
 \begin{table}[H]
-  \centering
-  \begin{tabular}{|l|c|c|}
-  \hline
-  \textbf{Category} & \textbf{PMD Issues} & \textbf{SonarQube Issues} \\
-  \hline
-  Code Style           & 496 & 308 \\
-  Best Practices       & 190 & 207 \\
-  Design               & 154 & 505 \\
-  Error Prone          & 135 & 702 \\
-  Documentation        & 84  & 0 \\
-  Multithreading       & 8   & 12 \\
-  Performance          & 6   & 61 \\
-  \textbf{TOTAL}       & \textbf{1074} & \textbf{1327} \\
-  \hline
-  \end{tabular}
-  \caption{Summary of Issues by Category for PMD and SonarQube}
-  \label{tab:sonarqube_pmd_comparison}
+	\centering
+	\begin{tabular}{|l|c|c|}
+		\hline
+		\textbf{Category} & \textbf{PMD Issues} & \textbf{SonarQube Issues} \\
+		\hline
+		Code Style        & 496                 & 308                       \\
+		Best Practices    & 190                 & 207                       \\
+		Design            & 154                 & 505                       \\
+		Error Prone       & 135                 & 702                       \\
+		Documentation     & 84                  & 0                         \\
+		Multithreading    & 8                   & 12                        \\
+		Performance       & 6                   & 61                        \\
+		\textbf{TOTAL}    & \textbf{1074}       & \textbf{1327}             \\
+		\hline
+	\end{tabular}
+	\caption{Summary of Issues by Category for PMD and SonarQube}
+	\label{tab:sonarqube_pmd_comparison}
 \end{table}
 
-\noindent As shown in \autoref{tab:sonarqube_pmd_comparison}, SonarQube generally found more issues than PMD, especially in the \textit{Design} and \textit{Error Prone} categories, while PMD identified a higher count in the \textit{Code Style} category. The \textit{Documentation} category is exclusive to PMD, as SonarQube does not provide a similar category. This result suggests that each tool has different strengths, with SonarQube focusing more on structural and potential bug-related issues and PMD emphasizing code readability and styling standards.
+\noindent As illustrated in \autoref{tab:sonarqube_pmd_comparison}, SonarQube detected a greater number of issues overall, with particular attention in the \textit{Design} and \textit{Error Prone} categories. Conversely, while PMD found fewer issues in total, reported a higher count in the \textit{Code Style} category. It is imporant to highlight that the \textit{Documentation} category is exclusive to PMD, as SonarQube does not provide a similar category (refer to \autoref{sec:data_preprocessing} for more details). This result suggests that each tool has different strengths, with SonarQube focusing more on structural and potential bug-related issues and PMD emphasizing code readability and styling standards.
 
 This difference in focus highlights the complementary nature of these tools. Using both tools together can yield a more comprehensive analysis, combining PMD's focus on code style and best practices with SonarQube's broader approach to design, performance, and error-prone code.
 
-It is important to note that PMD was run using the \texttt{quickstart} rule set (refer to Section \ref{sec:pmd_usage}), which puts particular attention on code style and the detection of best practices, while SonarQube’s analysis was conducted with its default comprehensive rule set. 
+It is important to note that PMD was run using the \texttt{quickstart} rule set (refer to Section \ref{sec:pmd_usage}), which puts particular attention on code style and the detection of best practices, while SonarQube’s analysis was conducted with its default comprehensive rule set.
 
 As already discussed, this choice was made to ensure a balanced comparison, as the default rule sets reflect typical configurations that many developers would use. These results suggest that SonarQube’s default rule set is more comprehensive than PMD’s \texttt{quickstart} rule set, providing a richer set of issues across different categories.
 
 \subsection{Project Quality Assessment}
 
-From the results in \autoref{tab:sonarqube_pmd_comparison}, it is evident that the codebase has a significant number of issues, particularly in categories associated with potential bugs, security vulnerabilities, and design improvements. These findings indicate areas where the project could benefit from enhancements, such as improved error handling, adherence to best design practices, and adjustments to address identified code style issues.
+From the results in \autoref{tab:sonarqube_pmd_comparison}, it is evident that the codebase has a significant number of issues, particularly in categories associated with potential bugs, security vulnerabilities, and design improvements. These findings suggest areas for potential quality improvement, including enhanced error handling, adherence to best design practices, and modifications to address code style issues.
 
-Addressing the issues highlighted by both tools would likely improve the overall quality of the project, contributing to better maintainability, readability, and potentially reducing future bug occurrences. This contradicts the initial hypothesis made in Section \ref{sec:initial_expectations}, which suggested that the project would have a low number of issues. The results indicate that the project could benefit from a more thorough review and refactoring to address the identified issues.
+Addressing the issues highlighted by both tools would likely improve the overall quality of the project, contributing to better maintainability, readability, and potentially reducing future bug occurrences. This contradicts the initial hypothesis outlined in \autoref{sec:initial_expectations}, which suggested that the project would have a low number of issues. The results indicate that the project could benefit from a more thorough review and refactoring to address the identified issues.
 
 After a brief manual inspection of the issues, it was observed that some of the issues detected by the tools are minor and may be false positives. These issues may not necessarily indicate a problem in the codebase but are flagged due to the tools' static analysis approach. False positives can be a common occurrence in static analysis tools, especially when dealing with complex codebases or specific programming patterns that the tools may not fully understand.
 
 SonarQube provides a scoring system that assesses the overall quality of the project based on the number and severity of issues detected per category. The project quality score is calculated from the number of issues in each category and their severity, providing a quantitative measure of the project's quality. Even though the project quality score is not the focus of this analysis, it can be a useful metric for evaluating the overall health of the codebase. \autoref{tab:sonar_project_quality} shows the project quality score for the codebase.
 
 \begin{table}[H]
-  \label{tab:sonar_project_quality}
-  \begin{center}
-    \begin{tabular}[c]{l|l}
-      \hline
-      \multicolumn{1}{c|}{\textbf{Property name}} & 
-      \multicolumn{1}{c}{\textbf{Score}} \\
-      \hline
-      Reliability & C \\
-      Security & A \\
-      Maintainability & A \\
-      \hline
-    \end{tabular}
-  \end{center}
-  \caption{SonarQube project quality score - A is the highest score, F is the lowest}
+	\label{tab:sonar_project_quality}
+	\begin{center}
+		\begin{tabular}[c]{l|l}
+			\hline
+			\multicolumn{1}{c|}{\textbf{Property name}} &
+			\multicolumn{1}{c}{\textbf{Score}}              \\
+			\hline
+			Reliability                                 & C \\
+			Security                                    & A \\
+			Maintainability                             & A \\
+			\hline
+		\end{tabular}
+	\end{center}
+	\caption{SonarQube project quality score - A is the highest score, F is the lowest}
 \end{table}
 
 \noindent From the project quality score in \autoref{tab:sonar_project_quality}, it can be seen that, although the project has a significant number of issues, it still scores highly in the \textit{Security} and \textit{Maintainability} categories. Research shows that SonarQube is known to report many issues that are not necessarily problems in the codebase, which may explain the high number of issues detected alongside a high score in the \textit{Security} and \textit{Maintainability} categories. This could also contribute to the high number of issues found in the \textit{Error Prone} category in \autoref{tab:sonarqube_pmd_comparison}.
@@ -93,9 +93,9 @@ SonarQube provides a scoring system that assesses the overall quality of the pro
 SonarQube identified 20 possible bugs in the project, explaining the lower score in the \textit{Reliability} category in \autoref{tab:sonar_project_quality}. This is a serious issue that should be addressed promptly, as it may lead to potential bugs and security vulnerabilities in the codebase. A manual inspection of each reported bug revealed that all of them arise from two common patterns in the codebase. The following listing details the results of the manual inspection:
 
 \begin{enumerate}
-  \item \textit{Use "remove()" instead of "set(null)"} - This issue is reported every time a method sets a variable to \texttt{null} rather than using the \texttt{remove} method (when available). For this reason, every call to \texttt{threadLocal.set(null)} is reported as a bug. The following listing shows an example code snippet that generates this issue:
+	\item \textit{Use "remove()" instead of "set(null)"} - This issue is reported every time a method sets a variable to \texttt{null} rather than using the \texttt{remove} method (when available). For this reason, every call to \texttt{threadLocal.set(null)} is reported as a bug. The following listing shows an example code snippet that generates this issue:
 
-    \begin{lstlisting}[language=Java]
+	      \begin{lstlisting}[language=Java]
       if (threadLocal.get() != null) {
           // BUG - Use "remove()" instead of "set(null)".
           threadLocal.set(null);
@@ -103,10 +103,10 @@ SonarQube identified 20 possible bugs in the project, explaining the lower score
       }
     \end{lstlisting}
 
-    \noindent This bug is a false positive, as every \texttt{set(null)} operation is followed by a call to \texttt{remove()} for added safety. This ensures that the pointer is correctly dereferenced and the variable removed from the map. This pattern is common in the codebase, leading to numerous false positives.
+	      \noindent This instance is a false positive, as every \texttt{set(null)} operation is followed by a \texttt{remove()} call for added safety. This ensures that the pointer is correctly dereferenced and the variable removed from the map. This pattern is common in the codebase, leading to numerous false positives.
 
-  \item \textit{Catch "InterruptedException" when not expected} - This issue is reported when a method catches an \texttt{InterruptedException} but does not handle it properly. This can lead to potential bugs, as the thread may not be interrupted correctly, causing unexpected behavior. After carefully inspecting each triggered bug for this pattern, it was noticed that all instances are false positives triggered by the same operation pattern. The following listing shows the code snippet that generates this issue:
-    \begin{lstlisting}[language=Java]
+	\item \textit{Catch "InterruptedException" when not expected} - This issue is reported when a method catches an \texttt{InterruptedException} but does not handle it properly. This can lead to potential bugs, as the thread may not be interrupted correctly, causing unexpected behavior. After carefully inspecting each triggered bug for this pattern, it was noticed that all instances are false positives triggered by the same operation pattern. The following listing shows the code snippet that generates this issue:
+	      \begin{lstlisting}[language=Java]
       ...
 
       try {
@@ -118,12 +118,12 @@ SonarQube identified 20 possible bugs in the project, explaining the lower score
 
       ...
     \end{lstlisting}
-    \noindent This bug is a false positive, as the \texttt{InterruptedException} is caught and handled properly in the codebase. This pattern is common in the codebase, leading to many false positives.
+	      \noindent This bug is a false positive, as the \texttt{InterruptedException} is caught and handled properly in the codebase. This pattern is common in the codebase, leading to many false positives.
 \end{enumerate}
 
-\noindent We conclude that the project does not contain any real bugs, as all of the reported bugs are false positives. This is a common issue with static analysis tools, as they may not fully understand the context or specific patterns in the codebase, leading to false positives.
+\noindent Hence, it can be that the project does not contain any real bug, as all of the reported bugs are false positives. This is a common issue with static analysis tools, as they may not fully understand the context or specific patterns in the codebase, leading to false positives.
 
-This highlights the importance of manual inspection and verification of the reported issues to ensure they are valid and require attention. Due to the large number of issues reported, manually inspecting each one is not feasible. However, by identifying common patterns that generate false positives, it is possible to filter out these issues and focus on the real problems in the codebase.
+This emphasizes the importance of manual inspection and verification of the reported issues to confirm the validity and of reported issues and determine if they require attention. Due to the large number of issues reported, manually inspecting each one is not feasible. However, by identifying common patterns that generate false positives, it is possible to filter out these issues and focus on the real problems in the codebase.
 
 On the other hand, by manually sampling and analyzing the issues reported by PMD, it was observed that all of them are true positive instances. Since the chosen rule set focuses on code style and best practices, properties that are simpler to detect than complex bugs or design issues, problems detected by this tool are less likely to be false positives. This would explain the absence of false positives in the manual inspection of PMD issues.
 
