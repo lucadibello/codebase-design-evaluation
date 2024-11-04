@@ -43,14 +43,14 @@ The project utilizes the \href{https://gradle.org/}{Gradle} build system to mana
                           ./gradlew build -x test
 \end{lstlisting}
 
-The additional flag \texttt{-x test} is used to skip the execution of the several test suites included in the project. Since the focus of this assignment is on the analysis of the codebase and not on the testing process, the tests were excluded as their execution could take a considerable amount of time and would not add any value to the analysis.
+\noindent The additional flag \texttt{-x test} is used to skip the execution of the several test suites included in the project. Since the focus of this assignment is on the analysis of the codebase and not on the testing process, the tests were excluded as their execution could take a considerable amount of time and would not add any value to the analysis.
 
 \subsection{Initial expectations and analysis strategy}
 \label{sec:initial_expectations}
 
 Due to its intensive use and the large community behind the project, we expect the \textit{resilienc4j} codebase to exhibit a high level of maintainability and readability. The project is actively maintained and receives regular updates, properties hinting an up-to-date codebase that follows the latest best practices in Java development. Given the nature of \textit{resilience4j}, a focus on performance, reliability, and robust error handling mechanisms is expected.
 
-This theory is supported by the fact that each pull request, apart from being reviewed by the maintainers, is also automatically tested using tailored GitHub actions. The configured GitHub actions show that for some critical \textit{pull requests}, the project employs \href{https://sonarcloud.io/}{SonarCloud} to automatically check the code quality of the changes. This is a good indicator that the project maintainers care about the code quality and are actively working to improve it. Refer to the \href{https://github.com/resilience4j/resilience4j/blob/master/.github/workflows/gradle-build.yml#L54}{GitHub actions configuration file} for more details.
+This theory is supported by the fact that each pull request, apart from being reviewed by the maintainers, is also automatically tested using tailored GitHub actions. The configured GitHub actions show that for some critical \textit{pull requests}, the project employs \href{https://sonarcloud.io/}{SonarCloud} to automatically check the code quality of the changes. This is a good indicator that the project maintainers care about the code quality and are actively working to improve it. Refer to the \href{https://github.com/resilience4j/resilience4j/blob/master/.github/workflows/gradle-build.yml#L54}{GitHub actions configuration file} for more details. Even though the project employs multiple tools and techniques to ensure code quality, is still expected to find minor issues and potential areas for improvement in the codebase.
 
 Inside this report we will only analyze files related to the core library, leaving behind the test files provided by the project. The test suites are not relevant for the analysis of the code quality, as they do not represent the actual functionality of the library. To do so, we will instruct the scanning tools to ignore the test files and focus only on relevant ones.
 

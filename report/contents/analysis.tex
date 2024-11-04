@@ -14,22 +14,22 @@ SonarQube found 21 different categories, providing a more detailed analysis of t
 
 	\item \textbf{Best Practices:} Mapped from SonarQube's \textit{java8}, \textit{bad-practice}, and \textit{serialization} categories. These issues relate to code quality and the misuse of Java features.
 
-	\item \textbf{Design:} Includes SonarQube's \textit{design} and \textit{brain-overload} categories, focusing on architectural and design quality. The \textit{brain-overload} category is included here as it relates to the complexity of the code, highlighting cases where a class or method is too complex (cyclomatic complexity, nesting, etc.).
+	\item \textbf{Design:} Includes SonarQube's \textit{design} and \textit{brain-overload} categories, focusing on architectural and design quality. The \textit{brain-overload} category is included here as it relates to the complexity of the code, highlighting cases where a class or method is too complex (cyclomatic complexity and cognitive complexity, refer to \href{https://docs.sonarqube.org/latest/user-guide/metric-definitions/}{SonarQube's documentation} for more details).
 
 	      Furthermore, it was later decided to map the \textit{brain-overload} category to the \textit{Code Style} category as well, as it also relates to the readability and maintainability of the code.
 
 	\item \textbf{Error Prone:} Mapped from SonarQube's \textit{cert}, \textit{pitfall}, \textit{suspicious}, \textit{cwe}, \textit{error-handling}, \textit{owasp-a3}, and \textit{leak} categories, each addressing issues that could lead to potential bugs or security vulnerabilities.
 
-	\item \textbf{Multithreading:} Directly matched with SonarQube's \textit{multi-threading} category, dealing with concurrency-related issues.
+	\item \textbf{Multithreading:} Directly matched with SonarQube's \textit{multi-threading} category, dealing with concurrency-related issues (i.e., synchronization, thread safety, etc.).
 
 	\item \textbf{Performance:} Mapped from SonarQube's \textit{performance} category, highlighting areas where code efficiency could be improved.
 
-	\item \textbf{Documentation:} No matching categories in SonarQube; this category remains with issues only detected by PMD.
+	\item \textbf{Documentation:} No matching categories in SonarQube; this category remains with issues only detected by PMD. Was decided to keep this category separate, as documentation is an important aspect of code quality and can be easily overlooked.
 \end{itemize}
 
 \subsection{Comparison of Results}
 
-After preprocessing the data, we were able to compare the results of the two tools. \autoref{tab:sonarqube_pmd_comparison} shows the number of issues found by each tool, categorized based on the mapping described in Section \ref{sec:data_preprocessing}.
+After preprocessing the data, we were able to compare the results of the two tools. \autoref{tab:sonarqube_pmd_comparison} shows the number of issues found by each tool, categorized based on the mapping described in \autoref{sec:data_preprocessing}.
 
 \begin{table}[H]
 	\centering
@@ -55,7 +55,7 @@ After preprocessing the data, we were able to compare the results of the two too
 
 This difference in focus highlights the complementary nature of these tools. Using both tools together can yield a more comprehensive analysis, combining PMD's focus on code style and best practices with SonarQube's broader approach to design, performance, and error-prone code.
 
-It is important to note that PMD was run using the \texttt{quickstart} rule set (refer to Section \ref{sec:pmd_usage}), which puts particular attention on code style and the detection of best practices, while SonarQube’s analysis was conducted with its default comprehensive rule set.
+It is important to note that PMD was run using the \texttt{quickstart} rule set (refer to \autoref{sec:pmd_usage}), which puts particular attention on code style and the detection of best practices, while SonarQube’s analysis was conducted with its default comprehensive rule set.
 
 As already discussed, this choice was made to ensure a balanced comparison, as the default rule sets reflect typical configurations that many developers would use. These results suggest that SonarQube’s default rule set is more comprehensive than PMD’s \texttt{quickstart} rule set, providing a richer set of issues across different categories.
 
