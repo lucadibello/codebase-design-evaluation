@@ -1,4 +1,5 @@
 # resilience4j - Codebase Design Evaluation
+> Luca Di Bello, Software Design and Modeling @ USI (Università della Svizzera Italiana)
 
 - [<span class="toc-section-number">1</span> Introduction](#introduction)
   - [<span class="toc-section-number">1.1</span> Project selection](#project-selection)
